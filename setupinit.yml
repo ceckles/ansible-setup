@@ -55,7 +55,6 @@
 
     - name: Install starship package
       ansible.builtin.package:
-        manager: auto
         name: starship
         state: latest
       become: yes
