@@ -55,7 +55,7 @@
         dest: ~/.oh-my-zsh/custom/plugins/fzf-tab
 
     - name: Install starship package
-      snap:
+      community.general.snap:
         name: starship
         state: latest
       become: yes
