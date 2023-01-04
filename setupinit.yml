@@ -24,7 +24,7 @@
 
     - name: Copy zshrc
       copy:
-        src: zsh/zshrc
+        src: files/zsh/zshrc
         dest: ~/.zshrc
 
     - name: Install zsh-syntax-highlighting plugin
