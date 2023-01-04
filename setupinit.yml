@@ -1,17 +1,18 @@
 - hosts: localhost
   tasks:
-    # - name: install packages
-    #   become: true
-    #   become_user: root
-    #   apt:
-    #     state: present
-    #     name:
-    #       - htop
-    #       - neofetch
-    #       - fonts-powerline
-    #       - snapd
-    #       - unzip
-    - name: Creates directory
+    - name: install packages
+      become: true
+      become_user: root
+      apt:
+        state: present
+        name:
+          - htop
+          - neofetch
+          - fonts-powerline
+          - snapd
+          - unzip
+
+    - name: Creates TMP directory
       file:
         path: ~/ansible-setup/tmp
         state: directory
@@ -37,44 +38,54 @@
         path: ~/ansible-setup/tmp/
         state: absent
 
-    # - name: Install zsh
-    #   ansible.builtin.package:
-    #     name: zsh
-    #     state: latest
-    #   become: yes
+    - name: Install zsh
+      ansible.builtin.package:
+        name: zsh
+        state: latest
+      become: yes
 
-    # - name: Install oh my zsh
-    #   git:
-    #     repo: https://github.com/ohmyzsh/ohmyzsh.git
-    #     dest: ~/.oh-my-zsh
-    #     depth: 1
+    - name: Install oh my zsh
+      git:
+        repo: https://github.com/ohmyzsh/ohmyzsh.git
+        dest: ~/.oh-my-zsh
+        depth: 1
 
-    # - name: Copy zshrc
-    #   copy:
-    #     src: files/zsh/zshrc
-    #     dest: ~/.zshrc
+    - name: Copy zshrc
+      copy:
+        src: files/zsh/zshrc
+        dest: ~/.zshrc
 
-    # - name: Backup bashrc
-    #   copy:
-    #     src: ~/.bashrc
-    #     dest: ~/.bashrc.bak
+    - name: Creates .ZSH directory
+      file:
+        path: ~/.zsh/
+        state: directory
 
-    # - name: Copy bashrc
-    #   copy:
-    #     src: files/bash/bashrc
-    #     dest: ~/.bashrc
+    - name: Copy ZSH Configs
+      copy:
+        src: zsh/config/
+        dest: ~/.zsh/
 
-    # - name: Install starship package
-    #   community.general.snap:
-    #     name: starship
-    #   become: yes
+    - name: Backup bashrc
+      copy:
+        src: ~/.bashrc
+        dest: ~/.bashrc.bak
 
-    # - name: Create config directory
-    #   file:
-    #     path: ~/.config/starship
-    #     state: directory
+    - name: Copy bashrc
+      copy:
+        src: files/bash/bashrc
+        dest: ~/.bashrc
 
-    # - name: Copy config file
-    #   copy:
-    #     src: config/starship/starship.toml
-    #     dest: ~/.config/starship/starship.toml
+    - name: Install starship package
+      community.general.snap:
+        name: starship
+      become: yes
+
+    - name: Create config directory
+      file:
+        path: ~/.config/starship
+        state: directory
+
+    - name: Copy config file
+      copy:
+        src: config/starship/starship.toml
+        dest: ~/.config/starship/starship.toml
