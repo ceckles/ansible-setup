@@ -2,8 +2,8 @@
 
 ## Ansible
 ```bash
-sudo apt-get install -y python3-pip
-pip3 install ansible
+sudo apt install -y python3-pip
+sudo -H pip3 install ansible
 ```
 ## Git
 ```bash
