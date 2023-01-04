@@ -1,3 +1,5 @@
+A ansible playbook I created to setup my raspberry pi's with the tools I use and configure the command prompt to my liking.
+
 #install
 
 ## Ansible
@@ -17,4 +19,6 @@ cd ansible-setup
 ## Run
 ```bash 
 ansible-playbook setupinit.yml
+#once finished run
+exec bash
 ```
