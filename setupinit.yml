@@ -11,6 +11,10 @@
     #       - fonts-powerline
     #       - snapd
     #       - unzip
+    - name: Creates directory
+      file:
+        path: ~/ansible-setup/tmp
+        state: directory
 
     - name: Download Nerd Font
       get_url:
