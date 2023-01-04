@@ -6,70 +6,71 @@
       apt:
         state: present
         name:
-          - tcsh
           - htop
           - neofetch
           - fonts-powerline
           - snapd
+          - unzip
 
-    - name: Install zsh
-      ansible.builtin.package:
-        name: zsh
-        state: latest
-      become: yes
+    - name: Download Nerd Font
+      get_url:
+        url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Hack.zip
+        dest: /tmp/Hack.zip
+        mode: 0755
 
-    - name: Install oh my zsh
-      git:
-        repo: https://github.com/ohmyzsh/ohmyzsh.git
-        dest: ~/.oh-my-zsh
-        depth: 1
+    - name: Unzip the Hack Font
+      shell: unzip Hack.zip
+      args:
+        chdir: /tmp/
 
-    - name: Copy zshrc
+    - name: Copy Hack Font to Font Folder
       copy:
-        src: files/zsh/zshrc
-        dest: ~/.zshrc
+        src: /tmp/Hack Regular Nerd Font Complete Mono.ttf
+        dest: ~/.local/share/fonts/
 
-    - name: Install zsh-syntax-highlighting plugin
-      git:
-        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-        dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-
-    - name: Install zsh-autosuggestions plugin
-      git:
-        repo: https://github.com/zsh-users/zsh-autosuggestions
-        dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-
-    - name: Install zsh-completions plugin
-      git:
-        repo: https://github.com/zsh-users/zsh-completions
-        dest: ~/.oh-my-zsh/custom/plugins/zsh-completions
-
-    - name: Install git-fuzzy plugin
-      git:
-        repo: https://github.com/bigH/git-fuzzy.git
-        dest: ~/.oh-my-zsh/custom/plugins/git-fuzzy
-
-    - name: Install fzf-tab plugin
-      git:
-        repo: https://github.com/Aloxaf/fzf-tab
-        dest: ~/.oh-my-zsh/custom/plugins/fzf-tab
-
-    - name: Install starship package
-      community.general.snap:
-        name: starship
-      become: yes
-
-    - name: Create config directory
+    - name: Remove Temp
       file:
-        path: ~/.config/starship
-        state: directory
+        path: /tmp/
+        state: absent
 
-    - name: Copy config file
-      copy:
-        src: config/starship/config.toml
-        dest: ~/.config/starship/config.toml
+    # - name: Install zsh
+    #   ansible.builtin.package:
+    #     name: zsh
+    #     state: latest
+    #   become: yes
 
-    - name: Copy bashrc
-      copy:
-        src: files/bash/bashrc
-        dest: ~/.bashrc
+    # - name: Install oh my zsh
+    #   git:
+    #     repo: https://github.com/ohmyzsh/ohmyzsh.git
+    #     dest: ~/.oh-my-zsh
+    #     depth: 1
+
+    # - name: Copy zshrc
+    #   copy:
+    #     src: files/zsh/zshrc
+    #     dest: ~/.zshrc
+
+    # - name: Backup bashrc
+    #   copy:
+    #     src: ~/.bashrc
+    #     dest: ~/.bashrc.bak
+
+    # - name: Copy bashrc
+    #   copy:
+    #     src: files/bash/bashrc
+    #     dest: ~/.bashrc
+
+    # - name: Install starship package
+    #   community.general.snap:
+    #     name: starship
+    #   become: yes
+
+    # - name: Create config directory
+    #   file:
+    #     path: ~/.config/starship
+    #     state: directory
+
+    # - name: Copy config file
+    #   copy:
+    #     src: config/starship/starship.toml
+    #     dest: ~/.config/starship/starship.toml
