@@ -16,5 +16,5 @@ cd ansible-setup
 ```
 ## Run
 ```bash 
-ansible-playbook main.yml
+ansible-playbook setupinit.yml
 ```

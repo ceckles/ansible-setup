@@ -30,7 +30,7 @@
 
     - name: Remove Temp
       file:
-        path: /tmp/
+        path: /tmp
         state: absent
 
     # - name: Install zsh
