@@ -15,17 +15,17 @@
     - name: Download Nerd Font
       get_url:
         url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Hack.zip
-        dest: /tmp/Hack.zip
+        dest: ~/ansible-setup/tmp/Hack.zip
         mode: 0755
 
     - name: Unzip the Hack Font
       shell: unzip Hack.zip
       args:
-        chdir: /tmp/
+        chdir: ~/ansible-setup/tmp/
 
     - name: Copy Hack Font to Font Folder
       copy:
-        src: /tmp/Hack Regular Nerd Font Complete Mono.ttf
+        src: ~/ansible-setup/tmp/Hack Regular Nerd Font Complete Mono.ttf
         dest: ~/.local/share/fonts/
 
     - name: Remove Temp
