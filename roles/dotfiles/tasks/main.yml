@@ -2,48 +2,48 @@
   copy:
     src: nanorc
     dest: /etc/nanorc
-  become: true
+
 
 - name: configure global bashrc for Redhat and Suse based systems
   copy:
     src: bashrc
     dest: /etc/bashrc
   when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "AlmaLinux"
-  become: true
+
 
 - name: confgure global zshrc for Redhat based systems
   copy:
     src: zshrc
     dest: /etc/zshrc
   when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "AlmaLinux" or ansible_facts['os_family'] == "Suse"
-  become: true
+
 
 - name: confgure global zshrc for Debian based systems
   copy:
     src: zshrc
     dest: /etc/zsh/zshrc
   when: ansible_facts['os_family'] == "Debian"
-  become: true
+
 
 - name: copy shiftsystems ascii art
   copy:
     src: colorshift.txt
     dest: /opt/colorshift.txt
     mode: '0644'
-  become: true
+
 
 - name: add antigen to local path
   get_url:
     url: https://git.io/antigen
     dest: /usr/local/bin/antigen.zsh
     mode: '755'
-  become: true
+
 
 - name: remove garbage from motd for Ubuntu based systems
   file:
     path: "{{ item }}"
     state: absent
-  become: true
+
   when: ansible_facts['os_family'] == "Debian"
   with_items:
     - "/etc/update-motd.d/00-header"
@@ -61,7 +61,7 @@
     name: "{{ item }}"
     state: stopped
     enabled: false
-  become: true
+
   with_items:
     - motd-news.service
     - motd-news.timer
@@ -70,7 +70,7 @@
 - name: update motd for Ubuntu based systems
   shell:
     cmd: update-motd
-  become: true
+
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: see if host is joined to a domain
@@ -82,7 +82,7 @@
   user:
     name: "{{ item }}"
     shell: /bin/zsh
-  become: true
+
   when: users is defined and not domain_joined.stat.exists
   with_items: "{{ users }}"
 
@@ -92,7 +92,7 @@
     path: "/home/{{ item }}/.cache/zsh"
     state: directory
     owner: "{{ item }}"
-  become: true
+
   when: users is defined
   with_items: "{{ users }}"
 
@@ -102,7 +102,7 @@
     state: directory
     owner: "{{ item }}"
     group: "{{ item }}"
-  become: true
+
   when: users is defined
   with_items: "{{ users }}"
 
@@ -114,7 +114,7 @@
     group: "{{ item }}"
   when: users is defined
   with_items: "{{ users }}"
-  become: true
+
 
 - name: make neovim folder in home directory
   file:
@@ -122,7 +122,7 @@
     state: directory
     owner: "{{ item }}"
     group: "{{ item }}"
-  become: true
+
   when: users is defined
   with_items: "{{ users }}"
 
@@ -135,4 +135,4 @@
     group: "{{ item }}"
   when: users is defined
   with_items: "{{ users}}"
-  become: true
+
