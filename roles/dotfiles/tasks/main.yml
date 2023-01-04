@@ -1,0 +1,138 @@
+- name: configure global nanorc
+  copy:
+    src: nanorc
+    dest: /etc/nanorc
+  become: true
+
+- name: configure global bashrc for Redhat and Suse based systems
+  copy:
+    src: bashrc
+    dest: /etc/bashrc
+  when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "AlmaLinux"
+  become: true
+
+- name: confgure global zshrc for Redhat based systems
+  copy:
+    src: zshrc
+    dest: /etc/zshrc
+  when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "AlmaLinux" or ansible_facts['os_family'] == "Suse"
+  become: true
+
+- name: confgure global zshrc for Debian based systems
+  copy:
+    src: zshrc
+    dest: /etc/zsh/zshrc
+  when: ansible_facts['os_family'] == "Debian"
+  become: true
+
+- name: copy shiftsystems ascii art
+  copy:
+    src: colorshift.txt
+    dest: /opt/colorshift.txt
+    mode: '0644'
+  become: true
+
+- name: add antigen to local path
+  get_url:
+    url: https://git.io/antigen
+    dest: /usr/local/bin/antigen.zsh
+    mode: '755'
+  become: true
+
+- name: remove garbage from motd for Ubuntu based systems
+  file:
+    path: "{{ item }}"
+    state: absent
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+  with_items:
+    - "/etc/update-motd.d/00-header"
+    - "/etc/update-motd.d/10-help-text"
+    - "/etc/update-motd.d/50-landscape-sysinfo"
+    - "/etc/update-motd.d/50-motd-news"
+    - "/etc/update-motd.d/80-esm"
+    - "/etc/update-motd.d/80-livepatch"
+    - "/etc/update-motd.d/90-updates-available"
+    - "/etc/update-motd.d/95-hwe-eol"
+    - "/etc/update-motd.d/51-cloudguest"
+
+- name: disable motd-news from systemd
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  become: true
+  with_items:
+    - motd-news.service
+    - motd-news.timer
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: update motd for Ubuntu based systems
+  shell:
+    cmd: update-motd
+  become: true
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: see if host is joined to a domain
+  stat:
+    path: /usr/bin/ipa
+  register: domain_joined
+
+- name: set zsh as the default shell for all users
+  user:
+    name: "{{ item }}"
+    shell: /bin/zsh
+  become: true
+  when: users is defined and not domain_joined.stat.exists
+  with_items: "{{ users }}"
+
+
+- name: make zsh cache folder in home directory
+  file:
+    path: "/home/{{ item }}/.cache/zsh"
+    state: directory
+    owner: "{{ item }}"
+  become: true
+  when: users is defined
+  with_items: "{{ users }}"
+
+- name: make neovim folder in home directory
+  file:
+    path: "/home/{{ item }}/.config/nvim"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  become: true
+  when: users is defined
+  with_items: "{{ users }}"
+
+- name: copy neovim config
+  copy:
+    src: "init.vim"
+    dest: "/home/{{ item }}/.config/nvim/init.vim"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  when: users is defined
+  with_items: "{{ users }}"
+  become: true
+
+- name: make neovim folder in home directory
+  file:
+    path: "/home/{{ item }}/.local/share/nvim/site/autoload"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  become: true
+  when: users is defined
+  with_items: "{{ users }}"
+
+
+- name: install vim-plug
+  get_url:
+    url: "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    dest: "/home/{{ item }}/.local/share/nvim/site/autoload/plug.vim"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  when: users is defined
+  with_items: "{{ users}}"
+  become: true
