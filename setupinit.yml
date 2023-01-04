@@ -51,3 +51,19 @@
       git:
         repo: https://github.com/Aloxaf/fzf-tab
         dest: ~/.oh-my-zsh/custom/plugins/fzf-tab
+        
+    - name: Install starship package
+      ansible.builtin.package:
+        name: starship
+        state: latest
+      become: yes
+
+    - name: Create config directory
+      file:
+        path: ~/.config/starship
+        state: directory
+
+    - name: Copy config file
+      copy:
+        src: config/starship/config.toml
+        dest: ~/.config/starship/config.toml
