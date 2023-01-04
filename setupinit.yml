@@ -28,12 +28,26 @@
       args:
         chdir: ~/ansible-setup/tmp/
 
+    - name: Remove License file
+      file:
+        path: ~/ansible-setup/tmp/LICENSE.md
+        state: absent
+    - name: Remove Readme files
+      file:
+        path: ~/ansible-setup/tmp/readme.md
+        state: absent
+
+    - name: Remove Zip files
+      file:
+        path: ~/ansible-setup/tmp/Hack.zip
+        state: absent
+
     - name: Copy Hack Font to Font Folder
       copy:
-        src: ~/ansible-setup/tmp/*.ttf
+        src: ~/ansible-setup/tmp/
         dest: ~/.fonts/
 
-    - name: Remove Temp
+    - name: Remove Temp DIR
       file:
         path: ~/ansible-setup/tmp/
         state: absent
