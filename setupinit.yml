@@ -57,7 +57,6 @@
     - name: Install starship package
       community.general.snap:
         name: starship
-        state: latest
       become: yes
 
     - name: Create config directory
