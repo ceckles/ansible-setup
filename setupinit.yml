@@ -52,9 +52,10 @@
       git:
         repo: https://github.com/Aloxaf/fzf-tab
         dest: ~/.oh-my-zsh/custom/plugins/fzf-tab
-        
+
     - name: Install starship package
       ansible.builtin.package:
+        manager: auto
         name: starship
         state: latest
       become: yes
