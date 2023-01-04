@@ -68,3 +68,8 @@
       copy:
         src: config/starship/config.toml
         dest: ~/.config/starship/config.toml
+
+    - name: Copy bashrc
+      copy:
+        src: files/bash/bashrc
+        dest: ~/.bashrc
