@@ -8,6 +8,8 @@ ENABLE_CORRECTION="false"
 ## General config
 skip_global_compinit=1
 
+export LANGUAGE="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 export PATH=$HOME/.pyenv/shims:$ZSH_CUSTOM/plugins/git-fuzzy/bin:$HOME/.local/bin:$HOME/.npm-packages/bin:$HOME/.cargo/bin:$PATH
 export EDITOR='nvim'
 export VIRTUAL_ENV_DISABLE_PROMPT=
