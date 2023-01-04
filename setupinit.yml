@@ -30,8 +30,8 @@
 
     - name: Copy Hack Font to Font Folder
       copy:
-        src: ~/ansible-setup/tmp/Hack Regular Nerd Font Complete Mono.ttf
-        dest: ~/.local/share/fonts/
+        src: ~/ansible-setup/tmp/Hack*.ttf
+        dest: ~/.fonts/
 
     - name: Remove Temp
       file:
