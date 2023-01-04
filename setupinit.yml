@@ -10,7 +10,7 @@
           - htop
           - neofetch
           - fonts-powerline
-          - snap
+          - snapd
 
     - name: Install zsh
       ansible.builtin.package:
