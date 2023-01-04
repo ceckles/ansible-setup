@@ -30,7 +30,7 @@
 
     - name: Copy Hack Font to Font Folder
       copy:
-        src: ~/ansible-setup/tmp/Hack*.ttf
+        src: ~/ansible-setup/tmp/*.ttf
         dest: ~/.fonts/
 
     - name: Remove Temp
