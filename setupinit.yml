@@ -59,13 +59,13 @@
         state: latest
       become: yes
 
-    - name: Install oh my zsh
+    - name: Install oh-my-zsh
       git:
         repo: https://github.com/ohmyzsh/ohmyzsh.git
         dest: ~/.oh-my-zsh
         depth: 1
 
-    - name: Copy zshrc
+    - name: Copy zshrc file
       copy:
         src: files/zsh/zshrc
         dest: ~/.zshrc
@@ -80,12 +80,12 @@
         src: zsh/config/
         dest: ~/.zsh/
 
-    - name: Backup bashrc
+    - name: Backup bashrc file
       copy:
         src: ~/.bashrc
         dest: ~/.bashrc.bak
 
-    - name: Copy bashrc
+    - name: Copy bashrc file
       copy:
         src: files/bash/bashrc
         dest: ~/.bashrc
@@ -95,12 +95,12 @@
         name: starship
       become: yes
 
-    - name: Create config directory
+    - name: Create Starship config directory
       file:
         path: ~/.config/
         state: directory
 
-    - name: Copy config file
+    - name: Copy Starship config file
       copy:
         src: config/starship/starship.toml
         dest: ~/.config/starship.toml
