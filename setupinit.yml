@@ -30,7 +30,7 @@
 
     - name: Remove Temp
       file:
-        path: /tmp
+        path: ~/ansible-setup/tmp/
         state: absent
 
     # - name: Install zsh
