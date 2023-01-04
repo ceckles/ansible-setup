@@ -9,6 +9,7 @@
           - tcsh
           - htop
           - neofetch
+          - fonts-powerline
 
     - name: Install zsh
       ansible.builtin.package:
