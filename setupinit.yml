@@ -88,4 +88,4 @@
     - name: Copy config file
       copy:
         src: config/starship/starship.toml
-        dest: ~/.config/starship/starship.toml
+        dest: ~/.config/starship.toml
